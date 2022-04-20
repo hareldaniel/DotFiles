@@ -1,0 +1,92 @@
+" behevior settings
+set autoindent
+filetype plugin indent on
+set tabstop=4
+set shiftwidth=4
+set modeline
+set modelines=5
+set wildmenu
+set formatoptions+=r
+set smartcase
+set incsearch		" Live-mathing of the search as it's being types
+set mouse=nvicr		" Allow mouse being used for cursor relocation and marks
+set scrolloff=1
+set undodir
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+let mapleader = " "
+noremap <leader>y "+y
+noremap <leader>p "+p
+
+" syntax and number lines
+syntax on
+set number relativenumber
+set numberwidth=1
+" set encoding=utf8
+set conceallevel=2		" Enable conceled marked chars to be hidden
+set noshowmode
+set laststatus=2
+
+augroup HIGHLIGHT_OVERRIDES
+	autocmd!
+	autocmd ColorScheme * highlight CursorLineNr cterm=bold
+				\ | highlight Comment cterm=italic
+				\ | highlight Normal ctermbg=NONE guibg=NONE
+				\ | highlight NonText ctermbg=NONE guibg=NONE
+augroup END
+colorscheme gruvbox
+
+" for folding, za to toggle
+set foldmethod=syntax
+set foldlevel=30
+
+" abbreviations
+set iskeyword+=#
+iabbrev #sh #!/usr/bin/env sh<CR>
+
+augroup SPECIAL_FILES
+	autocmd!
+	autocmd BufNewFile,BufRead *.rasi set syntax=css
+	autocmd BufWritePost */.config/sway/* silent !swaymsg reload
+augroup END
+
+" Disable arrow keys:
+nnoremap <Left> <Nop>
+inoremap <Left> <Nop>
+vnoremap <Left> <Nop>
+" cnoremap <Left> <Nop>
+
+nnoremap <Right> <Nop>
+inoremap <Right> <Nop>
+vnoremap <Right> <Nop>
+" cnoremap <Right> <Nop>
+
+nnoremap <Up> <Nop>
+inoremap <Up> <Nop>
+vnoremap <Up> <Nop>
+" cnoremap <Up> <Nop>
+
+nnoremap <Down> <Nop>
+inoremap <Down> <Nop>
+vnoremap <Down> <Nop>
+" cnoremap <Down> <Nop>
+
+" Ctags auto-updating
+function! UpdateTags(path)
+	let tags_file = findfile("tags", ".;")
+	let command_string = "ctags -a -f '" . tags_file . "' '" . a:path . "'"
+	let job = jobstart(command_string)
+endfunction
+autocmd BufWritePost * call UpdateTags(expand("<afile>"))
+
+" Extensions
+  let g:ale_fixers = {
+  \   'json': [
+  \       'jq',
+  \   ],
+  \}
+
+let g:lightline = {
+	\ 'colorscheme': 'gruvbox',
+	\ }
+
