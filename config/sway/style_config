@@ -1,0 +1,30 @@
+## sway colors configuration
+
+# Gaps features
+gaps inner 6
+smart_gaps on
+smart_borders on
+default_border pixel 1
+floating_minimum_size 24 x 24
+
+font universal 8
+seat seat0 xcursor_theme Adwaita 12
+output * bg '~/.resources/walls/gruvbox_arch.png' fill
+
+exec_always ' \
+	source $HOME/Scripts/colors_define.sh; \
+	swaymsg client.focused			"${color_values[4]}" "${background_value}" "${foreground_value}" "${color_values[7]}" "${color_values[4]}"; \
+	swaymsg client.focused_inactive	"${color_values[8]}" "${background_value}" "${foreground_value}" "${color_values[8]}" "${background_value}"; \
+	swaymsg client.unfocused 		"${color_values[8]}" "${background_value}" "${foreground_value}" "${color_values[8]}" "${background_value}"; \
+	swaymsg client.urgent	 		"#000000" "#000000" "#000000" "#777777" "${background_value}"; \
+	swaymsg client.placeholder 		"#000000" "#000000" "#000000" "#777777" "${background_value}"'
+
+# Example for standard colors table
+# class                 border  backgr. text    indicator child_border
+#client.focused          #000000 #000000 #ffffff #b6b6b6   #b6b6b6
+#client.focused_inactive #000000 #000000 #ffffff #777777   #777777
+#client.unfocused        #000000 #000000 #ffffff #777777   #777777
+#client.urgent           #000000 #000000 #ffffff #777777   #777777
+#client.placeholder      #000000 #000000 #ffffff #777777   #777777
+
+# vim: set syntax=sh :

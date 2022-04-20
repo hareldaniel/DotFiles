@@ -1,0 +1,23 @@
+## sway startup configuration
+
+xwayland disable
+focus_follows_mouse no
+input * {
+	xkb_options "grp:win_space_toggle,caps:escape_shifted_capslock"
+	xkb_layout "us,il"
+	dwt disabled
+	tap enabled
+	pointer_accel 0.35
+}
+
+exec_always 'killall mako; mako &'
+exec_always '~/Scripts/info_daemon/info_daemon.sh'
+exec_always 'xrdb $HOME/.Xresources'
+
+# startup apps
+exec ' \
+	$TERMINAL & \
+	$TERMINAL -e ranger & \
+	firefox &'
+
+# vim: set syntax=sh

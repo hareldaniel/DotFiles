@@ -1,0 +1,209 @@
+## sway hotkey configuration
+
+#set $up Up
+#set $down Down
+#set $left Left
+#set $right Right
+
+set $up k
+set $down j
+set $left h
+set $right l
+set $mod Mod4
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+floating_modifier $mod
+
+# resize window (you can also use the mouse for that)
+mode "resize" bindsym {
+	$left       resize shrink width 5 px
+	$down       resize grow height 5 px
+	$up         resize shrink height 5 px
+	$right      resize grow width 5 px
+
+	Return mode "default"
+	Escape mode "default"
+	$mod+r mode "default"
+}
+
+bindsym --to-code {
+
+$mod+grave exec \
+	$TERMINAL 
+
+$mod+w kill
+
+$mod+r exec \
+	'$HOME/Scripts/binding_cli.sh bemenu_run'
+
+$mod+e exec \
+	'exec $HOME/Scripts/binding_cli.sh bemenu_locate'
+
+$mod+q exec \
+	'$HOME/Scripts/binding_cli.sh bemenu_status'
+
+Ctrl+grave exec \
+	'$HOME/Scripts/clipboard_history_selector.sh'
+
+#$mod+tab exec rofi -show window
+#$mod+tab focus next
+
+# change focus
+$mod+$left focus left
+$mod+$down focus down
+$mod+$up focus up
+$mod+$right focus right
+
+# move focused window
+$mod+Shift+$left move left
+$mod+Shift+$down move down
+$mod+Shift+$up move up
+$mod+Shift+$right move right
+
+# enter fullscreen mode for the focused container
+$mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+#$mod+s layout stacking
+$mod+b layout tabbed
+$mod+g layout toggle split
+$mod+v split v
+
+# toggle tiling / floating
+$mod+Shift+o floating toggle
+
+# change focus between tiling / floating windows
+$mod+o focus mode_toggle
+
+# focus the parent container
+$mod+a focus parent
+
+# focus the child container
+$mod+d focus child
+
+# move the currently focused window to the scratchpad
+$mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+$mod+minus scratchpad show
+
+# switch to workspace
+$mod+1 workspace $ws1
+$mod+2 workspace $ws2
+$mod+3 workspace $ws3
+$mod+4 workspace $ws4
+$mod+5 workspace $ws5
+$mod+6 workspace $ws6
+$mod+7 workspace $ws7
+$mod+8 workspace $ws8
+$mod+9 workspace $ws9
+$mod+0 workspace $ws10
+
+# move focused container to workspace
+$mod+Shift+1 move container to workspace $ws1
+$mod+Shift+2 move container to workspace $ws2
+$mod+Shift+3 move container to workspace $ws3
+$mod+Shift+4 move container to workspace $ws4
+$mod+Shift+5 move container to workspace $ws5
+$mod+Shift+6 move container to workspace $ws6
+$mod+Shift+7 move container to workspace $ws7
+$mod+Shift+8 move container to workspace $ws8
+$mod+Shift+9 move container to workspace $ws9
+$mod+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+$mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+$mod+Shift+r restart
+
+$mod+t mode "resize"
+
+$mod+n exec \
+	makoctl dismiss
+
+$mod+Shift+n exec \
+	makoctl dismiss --all
+
+# Volume keys
+
+XF86AudioLowerVolume exec \
+	'amixer sset Master 5%-; \
+	~/Scripts/notification_templates.sh volume'
+	
+XF86AudioRaiseVolume exec \
+	'amixer sset Master 5%+; \
+	~/Scripts/notification_templates.sh volume'
+
+XF86AudioMute exec \
+	'$HOME/Scripts/binding_cli.sh mute'
+
+Shift+XF86AudioLowerVolume exec \
+	'amixer sset Capture 5%-; \
+	~/Scripts/notification_templates.sh mic_volume'
+
+Shift+XF86AudioRaiseVolume exec \
+	'amixer sset Capture 5%+; \
+	~/Scripts/notification_templates.sh mic_volume'
+
+$mod+m exec \
+	'$HOME/Scripts/binding_cli.sh mic_mute'
+
+# player controllers
+XF86AudioPlay exec \
+	'$HOME/Scripts/binding_cli.sh audio toggle'
+
+XF86AudioStop exec \
+	'$HOME/Scripts/binding_cli.sh audio clear'
+
+XF86AudioNext exec \
+	'$HOME/Scripts/binding_cli.sh audio next'
+
+XF86AudioPrev exec \
+	'$HOME/Scripts/binding_cli.sh audio prev'
+
+XF86TouchpadToggle exec \
+	'$HOME/Scripts/binding_cli.sh touchpad'
+
+$mod+c exec \
+	'$HOME/Scripts/binding_cli.sh lock'
+
+#Capture options
+Shift+Print exec \
+	'$HOME/Scripts/binding_cli.sh screen_capture selection'
+
+$mod+Print exec \
+	'$HOME/Scripts/binding_cli.sh screen_capture region'
+
+Print exec \
+	'$HOME/Scripts/binding_cli.sh screen_capture screen'
+
+#Change to next language.
+$mod+space exec \
+	'~/Scripts/notification_templates.sh language'
+	#'~/Scripts/keyboard_next.sh; \
+
+#Brightness controllers
+XF86MonBrightnessUp exec \
+	'$HOME/Scripts/binding_cli.sh brightness inc 5'
+
+XF86MonBrightnessDown exec \
+	'$HOME/Scripts/binding_cli.sh brightness dec 5'
+
+XF86ScreenSaver exec \
+	'$HOME/Scripts/binding_cli.sh screen_toggle'
+}
+
+# vim: set syntax=sh
